@@ -35,10 +35,7 @@ public class GameMsgEncoder extends ChannelOutboundHandlerAdapter {
             int msgCode = GameMsgRecognizer.getMsgCodeByMsgClazz(msg.getClass());
 
             if (-1 == msgCode) {
-                LOGGER.error(
-                    "无法识别的消息类型, msgClazz = {}",
-                    msg.getClass().getSimpleName()
-                );
+                LOGGER.error("无法识别的消息类型, msgClazz = {}", msg.getClass().getSimpleName());
                 super.write(ctx, msg, promise);
                 return;
             }

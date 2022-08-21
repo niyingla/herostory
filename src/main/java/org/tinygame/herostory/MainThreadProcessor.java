@@ -55,18 +55,14 @@ public final class MainThreadProcessor {
      * @param msg 消息对象
      */
     public void process(ChannelHandlerContext ctx, Object msg) {
-        if (null == ctx ||
-            null == msg) {
+        if (null == ctx || null == msg) {
             return;
         }
 
         // 获取消息类
         final Class<?> msgClazz = msg.getClass();
 
-        LOGGER.info(
-            "收到客户端消息, msgClazz = {}",
-            msgClazz.getName()
-        );
+        LOGGER.info("收到客户端消息, msgClazz = {}", msgClazz.getName());
 
         // 获取命令处理器
         final ICmdHandler<? extends GeneratedMessageV3> handlerImpl = CmdHandlerFactory.create(msgClazz);

@@ -43,10 +43,7 @@ public class GameMsgDecoder extends ChannelInboundHandlerAdapter {
             Message.Builder msgBuilder = GameMsgRecognizer.getMsgBuilderByMsgCode(msgCode);
 
             if (null == msgBuilder) {
-                LOGGER.error(
-                    "未找到消息构建器, msgCode = {}",
-                    msgCode
-                );
+                LOGGER.error("未找到消息构建器, msgCode = {}", msgCode);
                 return;
             }
 

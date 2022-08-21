@@ -72,21 +72,11 @@ public final class GameMsgRecognizer {
                     // 相当于调用 UserEntryCmd.getDefaultInstance();
                     Object returnObj = innerClazz.getDeclaredMethod("getDefaultInstance").invoke(innerClazz);
 
-                    LOGGER.info(
-                        "{} <==> {}",
-                        innerClazz.getName(),
-                        msgCode.getNumber()
-                    );
+                    LOGGER.info("{} <==> {}", innerClazz.getName(), msgCode.getNumber());
 
-                    _msgCodeAndMsgObjMap.put(
-                        msgCode.getNumber(),
-                        (GeneratedMessageV3) returnObj
-                    );
+                    _msgCodeAndMsgObjMap.put(msgCode.getNumber(), (GeneratedMessageV3) returnObj);
 
-                    _msgClazzAndMsgCodeMap.put(
-                        innerClazz,
-                        msgCode.getNumber()
-                    );
+                    _msgClazzAndMsgCodeMap.put(innerClazz, msgCode.getNumber());
                 } catch (Exception ex) {
                     // 记录错误日志
                     LOGGER.error(ex.getMessage(), ex);
