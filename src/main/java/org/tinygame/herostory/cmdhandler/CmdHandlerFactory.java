@@ -47,8 +47,7 @@ public final class CmdHandlerFactory {
         );
 
         for (Class<?> handlerClazz : clazzSet) {
-            if (null == handlerClazz ||
-                0 != (handlerClazz.getModifiers() & Modifier.ABSTRACT)) {
+            if (null == handlerClazz || 0 != (handlerClazz.getModifiers() & Modifier.ABSTRACT)) {
                 continue;
             }
 
@@ -58,8 +57,7 @@ public final class CmdHandlerFactory {
             Class<?> cmdClazz = null;
 
             for (Method currMethod : methodArray) {
-                if (null == currMethod ||
-                    !currMethod.getName().equals("handle")) {
+                if (null == currMethod || !currMethod.getName().equals("handle")) {
                     continue;
                 }
 
@@ -84,11 +82,7 @@ public final class CmdHandlerFactory {
                 // 创建命令处理器实例
                 ICmdHandler<?> newHandler = (ICmdHandler<?>) handlerClazz.newInstance();
 
-                LOGGER.info(
-                    "{} <==> {}",
-                    cmdClazz.getName(),
-                    handlerClazz.getName()
-                );
+                LOGGER.info("{} <==> {}", cmdClazz.getName(), handlerClazz.getName());
 
                 _handlerMap.put(cmdClazz, newHandler);
             } catch (Exception ex) {

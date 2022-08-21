@@ -72,16 +72,11 @@ public final class MainThreadProcessor {
         final ICmdHandler<? extends GeneratedMessageV3> handlerImpl = CmdHandlerFactory.create(msgClazz);
 
         if (null == handlerImpl) {
-            LOGGER.error(
-                "未找到相对应的命令处理器, msgClazz = {}",
-                msgClazz.getName()
-            );
+            LOGGER.error("未找到相对应的命令处理器, msgClazz = {}", msgClazz.getName());
             return;
         }
 
-        this.process(() -> handlerImpl.handle(
-            ctx, cast(msg)
-        ));
+        this.process(() -> handlerImpl.handle(ctx, cast(msg)));
     }
 
     /**

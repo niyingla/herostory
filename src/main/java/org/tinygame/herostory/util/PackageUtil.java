@@ -25,10 +25,7 @@ public final class PackageUtil {
      * @param superClazz  父类的类型
      * @return 子类集合
      */
-    static public Set<Class<?>> listSubClazz(
-        String packageName,
-        boolean recursive,
-        Class<?> superClazz) {
+    static public Set<Class<?>> listSubClazz(String packageName, boolean recursive, Class<?> superClazz) {
         if (superClazz == null) {
             return Collections.emptySet();
         } else {
@@ -45,7 +42,6 @@ public final class PackageUtil {
      * @return 符合条件的类集合
      */
     static public Set<Class<?>> listClazz(String packageName, boolean recursive, IClazzFilter filter) {
-
         if (packageName == null ||
             packageName.isEmpty()) {
             return null;
@@ -73,9 +69,7 @@ public final class PackageUtil {
 
                 if ("FILE".equalsIgnoreCase(protocol)) {
                     // 从文件系统中加载类
-                    tmpSet = listClazzFromDir(
-                        new File(currUrl.getFile()), packageName, recursive, filter
-                    );
+                    tmpSet = listClazzFromDir(new File(currUrl.getFile()), packageName, recursive, filter);
                 } else if ("JAR".equalsIgnoreCase(protocol)) {
                     // 获取文件字符串
                     String fileStr = currUrl.getFile();
@@ -93,9 +87,7 @@ public final class PackageUtil {
                     }
 
                     // 从 JAR 文件中加载类
-                    tmpSet = listClazzFromJar(
-                        new File(fileStr), packageName, recursive, filter
-                    );
+                    tmpSet = listClazzFromJar(new File(fileStr), packageName, recursive, filter);
                 }
 
                 if (tmpSet != null) {
