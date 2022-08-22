@@ -40,11 +40,7 @@ public final class CmdHandlerFactory {
         // 获取包名称
         final String packageName = CmdHandlerFactory.class.getPackage().getName();
         // 获取 ICmdHandler 所有的实现类
-        Set<Class<?>> clazzSet = PackageUtil.listSubClazz(
-            packageName,
-            true,
-            ICmdHandler.class
-        );
+        Set<Class<?>> clazzSet = PackageUtil.listSubClazz(packageName, true, ICmdHandler.class);
 
         for (Class<?> handlerClazz : clazzSet) {
             if (null == handlerClazz || 0 != (handlerClazz.getModifiers() & Modifier.ABSTRACT)) {

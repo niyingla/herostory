@@ -42,8 +42,7 @@ public final class PackageUtil {
      * @return 符合条件的类集合
      */
     static public Set<Class<?>> listClazz(String packageName, boolean recursive, IClazzFilter filter) {
-        if (packageName == null ||
-            packageName.isEmpty()) {
+        if (packageName == null || packageName.isEmpty()) {
             return null;
         }
 
