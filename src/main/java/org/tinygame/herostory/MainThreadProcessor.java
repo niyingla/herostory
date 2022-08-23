@@ -71,7 +71,7 @@ public final class MainThreadProcessor {
             LOGGER.error("未找到相对应的命令处理器, msgClazz = {}", msgClazz.getName());
             return;
         }
-
+        //单线程执行 防止并发问题（修改血量等）
         this.process(() -> handlerImpl.handle(ctx, cast(msg)));
     }
 

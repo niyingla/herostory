@@ -13,24 +13,20 @@ import org.tinygame.herostory.msg.GameMsgProtocol;
 public class UserLoginCmdHandler implements ICmdHandler<GameMsgProtocol.UserLoginCmd> {
     @Override
     public void handle(ChannelHandlerContext ctx, GameMsgProtocol.UserLoginCmd cmd) {
-        if (null == ctx ||
-            null == cmd) {
+        if (null == ctx || null == cmd) {
             return;
         }
 
         String userName = cmd.getUserName();
         String password = cmd.getPassword();
 
-        if (null == userName ||
-            null == password) {
+        if (null == userName || null == password) {
             return;
         }
 
         // 获取用户实体
         LoginService.getInstance().userLogin(userName, password, (userEntity) -> {
-            GameMsgProtocol.UserLoginResult.Builder
-                resultBuilder = GameMsgProtocol.UserLoginResult.newBuilder();
-
+            GameMsgProtocol.UserLoginResult.Builder resultBuilder = GameMsgProtocol.UserLoginResult.newBuilder();
             if (null == userEntity) {
                 resultBuilder.setUserId(-1);
                 resultBuilder.setUserName("");
@@ -53,7 +49,6 @@ public class UserLoginCmdHandler implements ICmdHandler<GameMsgProtocol.UserLogi
 
             GameMsgProtocol.UserLoginResult newResult = resultBuilder.build();
             ctx.writeAndFlush(newResult);
-
             return null;
         });
     }

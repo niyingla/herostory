@@ -51,8 +51,7 @@ public final class LoginService {
      * @param callback 回调函数
      */
     public void userLogin(String userName, String password, Function<UserEntity, Void> callback) {
-        if (null == userName ||
-            null == password) {
+        if (null == userName || null == password) {
             return;
         }
 
