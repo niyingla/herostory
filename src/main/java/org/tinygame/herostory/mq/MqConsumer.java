@@ -2,15 +2,12 @@ package org.tinygame.herostory.mq;
 
 import com.alibaba.fastjson.JSONObject;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
-import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
 import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
 import org.apache.rocketmq.common.message.MessageExt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tinygame.herostory.rank.RankService;
-
-import java.util.List;
 
 /**
  * 消息队列消费者
@@ -45,35 +42,25 @@ public final class MqConsumer {
             // 否则后面的监听逻辑都不会执行...
             consumer.subscribe("herostory_victor", "*");
 
-            consumer.registerMessageListener(new MessageListenerConcurrently() {
-                @Override
-                public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> msgExtList, ConsumeConcurrentlyContext ctx) {
-                    for (MessageExt msgExt : msgExtList) {
-                        if (null == msgExt) {
-                            continue;
-                        }
-
-                        // 解析为胜利消息
-                        VictorMsg victorMsg = JSONObject.parseObject(
-                            msgExt.getBody(),
-                            VictorMsg.class
-                        );
-
-                        LOGGER.info(
-                            "从消息队列中收到胜利消息, winnerId = {}, loserId = {}",
-                            victorMsg.winnerId,
-                            victorMsg.loserId
-                        );
-
-                        // 刷新排行榜
-                        RankService.getInstance().refreshRank(
-                            victorMsg.winnerId,
-                            victorMsg.loserId
-                        );
+            consumer.registerMessageListener((MessageListenerConcurrently) (msgExtList, ctx) -> {
+                for (MessageExt msgExt : msgExtList) {
+                    if (null == msgExt) {
+                        continue;
                     }
+                    // 解析为胜利消息
+                    VictorMsg victorMsg = JSONObject.parseObject(msgExt.getBody(), VictorMsg.class);
 
-                    return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
+                    LOGGER.info(
+                        "从消息队列中收到胜利消息, winnerId = {}, loserId = {}",
+                        victorMsg.winnerId,
+                        victorMsg.loserId
+                    );
+
+                    // 刷新排行榜
+                    RankService.getInstance().refreshRank(victorMsg.winnerId, victorMsg.loserId);
                 }
+
+                return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
             });
 
             consumer.start();

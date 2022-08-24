@@ -53,7 +53,7 @@ public final class CmdHandlerFactory {
             Class<?> cmdClazz = null;
 
             for (Method currMethod : methodArray) {
-                if (null == currMethod || !currMethod.getName().equals("handle")) {
+                if (null == currMethod || !"handle".equals(currMethod.getName())) {
                     continue;
                 }
 
